@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "620031076710",
+    "project_id": "shop-fbee3",
+    "storage_bucket": "shop-fbee3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:620031076710:android:4d02cc7dedb2e9335100a7",
+        "android_client_info": {
+          "package_name": "com.jim.shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "620031076710-ldf6l7lk2as9rebbmdmm364gs67eqv1o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCC2fFW3aOtyjiNePt6Xl39TGkAzKNrk68"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "620031076710-ldf6l7lk2as9rebbmdmm364gs67eqv1o.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
