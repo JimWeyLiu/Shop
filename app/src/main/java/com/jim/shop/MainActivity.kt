@@ -1,5 +1,6 @@
 package com.jim.shop
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
@@ -10,7 +11,10 @@ import android.view.MenuItem
 import com.jim.shop.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
+
     //=====================================================↓
+    private val RC_NICKNAME = 210
     private val RC_SIGNUP = 200 //
     var signup = false // 預設未註冊
     //=====================================================↑
@@ -37,7 +41,15 @@ class MainActivity : AppCompatActivity() {
     //=====================================================↓
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) { //覆寫onActivityResult
         super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGNUP) {
+            if (resultCode == Activity.RESULT_OK){
+                val intent = Intent(this,NickActivity::class.java)
+                startActivityForResult(intent,RC_NICKNAME)
+            }
+            if (requestCode == RC_NICKNAME) {
 
+            }
+        }
     }
     //=====================================================↑
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
