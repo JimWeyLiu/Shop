@@ -10,7 +10,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import android.view.Menu
 import android.view.MenuItem
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.jim.shop.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -48,7 +53,26 @@ class MainActivity : AppCompatActivity() {
     //=====================================================↓
     override fun onResume() {
         super.onResume()
-        nickname.text = getNickname()
+//      nickname.text = getNickname()
+        if (auth.currentUser != null) {
+            FirebaseDatabase.getInstance()
+                .getReference("users")
+                .child(auth.currentUser!!.uid)
+                .child("nickname")
+                .addListenerForSingleValueEvent(object : ValueEventListener {
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        if (dataSnapshot.value !=null){
+                            Log.d("onDataChange: ",dataSnapshot.toString())
+                        nickname.text = dataSnapshot.value as String
+                        }
+                    }
+                })
+            Log.d("onResume: ",auth.currentUser.toString())
+        }
     }
     //=====================================================↑
 
@@ -66,7 +90,7 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGNUP) {
             if (resultCode == Activity.RESULT_OK){
-                val intent = Intent(this,NickActivity::class.java)
+                val intent = Intent(this,NicknameActivity::class.java)
                 startActivityForResult(intent,RC_NICKNAME)
             }
             if (requestCode == RC_NICKNAME) {//輸入完成後的判斷
