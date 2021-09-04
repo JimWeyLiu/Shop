@@ -4,15 +4,16 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -21,6 +22,7 @@ import com.google.firebase.database.ValueEventListener
 import com.jim.shop.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.content_main.*
+import kotlinx.android.synthetic.main.row_function.view.*
 import java.text.FieldPosition
 
 class MainActivity : AppCompatActivity() {
@@ -31,7 +33,14 @@ class MainActivity : AppCompatActivity() {
     private val RC_SIGNUP = 200 //
     var signup = false // 預設未註冊
     val auth=FirebaseAuth.getInstance()//頃聽器
-
+//====================================↓
+    val functions = listOf<String>("Camera", //可在此處增加項目
+        "Invite friend",
+        "Parking",
+        "Download coupons",
+        "New",
+        "Maps")
+//====================================↑
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
 
@@ -54,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
-//        =====================================================
+
         //Spinner
         val colors = arrayOf("Red","Green","Blue")
         val adapter = ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,colors)
@@ -74,8 +83,31 @@ class MainActivity : AppCompatActivity() {
                 TODO("Not yet implemented")
             }
         }
-//        =====================================================
+//====================================↓
+        //RecyclerView 清單功能表
+        recycler.layoutManager = LinearLayoutManager(this) //清單式的一個編排頁面
+        recycler.setHasFixedSize(true) //設定固定大小=真
+        recycler.adapter = FunctionAdapter()
+    }
+    inner class FunctionAdapter() : RecyclerView.Adapter<FunctionHolder>(){
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FunctionHolder {
+            val view = LayoutInflater.from(parent.context)
+                .inflate(R.layout.row_function,parent,false)
+            val holder = FunctionHolder(view)
+            return holder
+        }
+        override fun onBindViewHolder(holder: FunctionHolder, position: Int) {
+            holder.nameText.text = functions.get(position)
 
+        }
+
+        override fun getItemCount(): Int { //它在問說這一個裡面到底有幾筆資料
+            return functions.size
+        }
+    }
+    class FunctionHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var nameText :TextView = view.name
+//====================================↑
     }
     override fun onResume() {
         super.onResume()
