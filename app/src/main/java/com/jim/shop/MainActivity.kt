@@ -9,6 +9,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.ui.AppBarConfiguration
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -17,6 +21,7 @@ import com.google.firebase.database.ValueEventListener
 import com.jim.shop.databinding.ActivityMainBinding
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import kotlinx.android.synthetic.main.content_main.*
+import java.text.FieldPosition
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,8 +54,29 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
+//        =====================================================
+        //Spinner
+        val colors = arrayOf("Red","Green","Blue")
+        val adapter = ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,colors)
+        adapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line)
+        spinner.adapter=adapter
+        spinner.onItemSelectedListener = object  : AdapterView.OnItemSelectedListener,
+            AdapterView.OnItemClickListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, position: Int, p3: Long) { //選完之後執行
+                Log.d("MainActivity", "onItemSelected: ${colors[position]}")
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+                TODO("Not yet implemented")
+            }
+
+            override fun onItemClick(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                TODO("Not yet implemented")
+            }
+        }
+//        =====================================================
+
     }
-    //=====================================================↓
     override fun onResume() {
         super.onResume()
 //      nickname.text = getNickname()
@@ -74,8 +100,6 @@ class MainActivity : AppCompatActivity() {
             Log.d("onResume: ",auth.currentUser.toString())
         }
     }
-    //=====================================================↑
-
     private fun authChanged(auth: FirebaseAuth) {
         if (auth.currentUser==null){//取得目前使用者
             val intent = Intent(this,SignUpActivity::class.java)
@@ -84,8 +108,6 @@ class MainActivity : AppCompatActivity() {
             Log.d("MainActivity",  "authChanged: ${auth.currentUser?.uid}")
         }
     }
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) { //覆寫onActivityResult
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGNUP) {
@@ -98,7 +120,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
