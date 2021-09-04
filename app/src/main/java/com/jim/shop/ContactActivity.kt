@@ -2,7 +2,6 @@ package com.jim.shop
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.database.Cursor
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -42,10 +41,10 @@ class ContactActivity : AppCompatActivity() {
     private fun readContact() {
         val cursor=contentResolver.query(ContactsContract.Contacts.CONTENT_URI,
         null,null,null,null)
-        while (cursor.moveToNext()) {
+        while (cursor!!.moveToNext()) {
             val name  =
                 cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-            Log.d(TAG, "onCreate: ")
+            Log.d(TAG, "onCreate: $name")
         }
     }
 }
