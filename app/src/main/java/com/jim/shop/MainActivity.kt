@@ -26,9 +26,7 @@ import kotlinx.android.synthetic.main.row_function.view.*
 import java.text.FieldPosition
 
 class MainActivity : AppCompatActivity() {
-    //====================================↓
     private val TAG = MainActivity::class.java.simpleName
-    //====================================↑
     private val RC_NICKNAME = 210
     private val RC_SIGNUP = 200 //
     var signup = false // 預設未註冊
@@ -96,27 +94,26 @@ class MainActivity : AppCompatActivity() {
             val holder = FunctionHolder(view)
             return holder
         }
-        //====================================↓
         override fun onBindViewHolder(holder: FunctionHolder, position: Int) {
             holder.nameText.text = functions.get(position)
             holder.itemView.setOnClickListener { view ->
                 functionClicked(holder,position)
             }
-        //====================================↑
         }
 
         override fun getItemCount(): Int { //它在問說這一個裡面到底有幾筆資料
             return functions.size
         }
     }
-    //====================================↓
     private fun functionClicked(holder: MainActivity.FunctionHolder, position: Int) {
         Log.d(TAG, "functionClicked: $position")
         when(position){
             1 -> startActivity(Intent(this,ContactActivity::class.java))//按下後跳頁 例如：收到1開啟此頁面
+            // ==========================================↓
+            2 -> startActivity(Intent(this,ParkingActivity::class.java))
+            // ==========================================↑
 
         }
-    //====================================↑
     }
 
     class FunctionHolder(view: View) : RecyclerView.ViewHolder(view) {
